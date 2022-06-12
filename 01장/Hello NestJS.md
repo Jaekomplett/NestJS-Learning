@@ -46,3 +46,69 @@ NestJS에 **Express**와 **Fastify**를 적용했을 경우를 각각 구분하�
 Express는 2019년 5월 26일 최근 4.17.2, 4.17.3 버전을 업데이트하였지만 그 전까지 몇년간 개발이 정체되어 있었는데, 5.0을 준비하고 있기 때문일 수도 있고, 매우 안정적인 프레임워크라서 문제없이 운용되고 있는 것의 반증이라고 볼 수 있지만 최신 트렌드를 따라가지 못한다는 우려가 있는 것도 사실이다. NestJS는 꾸준히 발전하고 있는 모습을 보여준다. 2022년 3월에 version 8.4.0을 릴리즈하였고 깃허브를 통해 커뮤니케이션도 활발히 하고 있다.
 
 # 1.3 NestJS 설치
+### Node.js 설치
+NestJS는 Node.js를 기반으로 한다. 먼저 Node.js 공식 페이지를 통해 자신에게 맞는 버전을 설치한다. 안정적인 버전인 LTS를 선택하고 다운로드 후 설치파일을 실행하거나 소스코드에서 직접 빌드 후 설치한다. (자세한 방법은 홈페이지 참조)
+
+### NestJS 프로젝트 생성
+Node.js를 설치하면 npm이 함께 설치되어 있다. npm은 Node.js에서 사용하는 패키지 관리자인데 https://www.npmjs.com/ 에 등록된 라이브러리들을 쉽게 설치, 삭제할 수 있게 해준다.
+
+NestJS 서버를 구성하기 위해 먼저 @nestjs/cli 를 설치
+```
+npm i -g @nestjs/cli
+```
+
+`i` 명령어는 install 명령어의 약어이다. `-g` 옵션은 컴퓨터의 글로벌 환경에 설치하겠다는 것으로, 모든 디렉토리에서 참조 가능하다. 참고로 글로벌 환경에서 패키지가 설치되는 경로는 `npm root -g` 명령어로 확인할 수 있다.
+
+설치가 끝났다면 프로젝트 초기 세팅을 해보자.
+
+```
+nest new project-name
+```
+
+project-name을 적당한 것으로 바꾸어 입력한다. 설치 도중 패키지 매니저를 어느 것으로 할 지 묻는데 선호하는 것으로 선택하면 된다.
+<img width="682" alt="1-4" src="https://user-images.githubusercontent.com/87610758/173223171-bbfb35f0-030e-48be-bca0-00cfe5695284.png">
+
+```
+├── README.md
+├── nest-cli.json
+├── node_modules
+├── package-lock.json
+├── package.json
+├── src
+│   ├── app.controller.spec.ts
+│   ├── app.controller.ts
+│   ├── app.module.ts
+│   ├── app.service.ts
+│   └── main.ts
+├── test
+│   ├── app.e2e-spec.ts
+│   └── jest-e2e.json
+├── tsconfig.build.json
+└── tsconfig.json
+```
+
+설치가 끝나면 보일러 플레이트 코드를 생성해 준다.
+
+> https://github.com/nestjs/typescript-starter 에서 시작해도 좋다고 한다. nestjs/typescript-starter가 nest new로 프로젝트를 셋업한 것 보다 더 최신 버전의 라이브러리들로 구성해 준다.
+
+서버를 실행하기 위해 프로젝트가 설치된 경로로 이동한 후, 아래의 명령어를 입력한다. 이 책에서는 book-nestjs-backend라는 이름으로 프로젝트를 생성하였습니다. 이 책의 소스코드는 [github 저장소](https://github.com/dextto/book-nestjs-backend)에서 다운로드 받을 수 있다.
+
+```
+git clone https://github.com/dextto/book-nestjs-backend.git
+cd book-nestjs-backend/examples/ch1-intro/
+npm install  // 필요한 패키지를 설치.
+npm run start
+```
+
+> 운영 서버가 아닌 개발 단계에서는 npm run start:dev 명령어를 이용하라고 한다. package.json에 기술된 스크립트를 보면 "start:dev": "nest start --watch" 라고 되어 있는 걸 확인할 수 있다. —watch 옵션으로 소스코드 변경을 감지하여 코드를 저장할 때 마다 서버를 다시 구동시켜 준다. 
+
+
+서버에 접속해서 잘 동작하는지 확인해 보자. 포트는 기본으로 3000번으로 설정되어 있는데, main.ts 파일에서 포트를 설정했음을 확인할 수 있다.
+
+```ts
+async function bootstrap() {
+  const app = await NestFactory.create(AppModule);
+  await app.listen(3000);
+}
+bootstrap();
+```
