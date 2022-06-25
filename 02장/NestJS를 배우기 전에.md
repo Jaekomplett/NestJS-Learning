@@ -43,5 +43,5 @@ Check 단계는 setImmediate의 콜백만을 위한 단계입니다. 역시 큐�
 ### Close 콜백 단계
 socket.on('close', () => {})과 같은 close나 destroy 이벤트 타입의 콜백이 여기서 처리됩니다. 이벤트 루프는 Close 콜백 단계를 마치고 나면 다음 루프에서 처리해야 하는 작업이 남아 있는지 검사합니다. 만약 작업이 남아 있다면 Timer 단계부터 한 번 더 루프를 돌게 되고 아니라면 루프를 종료합니다.
 
-nextTickQueue과 microTaskQueue
+### nextTickQueue과 microTaskQueue
 nextTickQueue는 process.nextTick() API의 콜백들을 가지고 있으며, microTaskQueue는 Resolve된 Promise의 콜백을 가지고 있습니다. 이 두개의 큐는 기술적으로 이벤트 루프의 일부가 아닙니다. 즉, libuv 라이브러리에 포함된 것이 아니라 Node.js에 포함된 기술입니다. 이 두 큐에 들어 있는 콜백은 단계를 넘어가는 과정에서 먼저 실행됩니다. nextTickQueue가 microTaskQueue보다 높은 우선순위를 가지고 있습니다.
